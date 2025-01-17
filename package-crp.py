@@ -221,6 +221,7 @@ def listCreatedInstances(topicId):
         info.ProjectID = instance["ProjectID"]
         info.ProjectName = instance["ProjectName"]
         info.Branch = instance["Branch"]
+        info.BuildState = instance["BuildState"]["state"]
         instances.append(info)
 
     return instances
@@ -356,7 +357,7 @@ def main(argv):
         for topic in topics:
             instances = listCreatedInstances(topic.id)
             for instance in instances:
-                print(topic.name, instance.ProjectName, instance.Branch)
+                print(topic.name, instance.ProjectName, instance.Branch, instance.BuildState)
     if (args.command == 'branches'):
         topics = listTopics()
         if len(topics) == 0:
@@ -369,7 +370,7 @@ def main(argv):
             for project in projects:
                 branchs = listBranchs(project.id, project.url, "")
                 for branch in branchs:
-                    print(topic.name, project.name, branch.name)
+                    print(topic.name, project.name, branch.name, branch.changelog)
     if (args.command == 'package'):
         createOrUpdate()
 
