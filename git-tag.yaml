@@ -1,0 +1,16 @@
+repositories:
+  - name: "linuxdeepin/dde-control-center"
+    enable: false
+    branch: "master"
+    distribution: "unstable"
+    versionLastSplit: "."
+  - name: "linuxdeepin/dde-shell"
+    branch: "master"
+    distribution: "unstable"
+    versionLastSplit: "."
+  - name: "linuxdeepin/dde-session"
+    branch: "master"
+    distribution: "unstable"
+    versionLastSplit: "."
+extra:
+  maintainer: "TEST <test@qq.com>"
