@@ -33,7 +33,7 @@ class ArgsInfo:
         self.token = "xxxx"
 
         # 从配置文件读取参数
-        config_path = os.path.expanduser('~/.config/tools/package-crp-config.json')
+        config_path = os.path.expanduser('~/.config/dev-tool/package-crp-config.json')
         with open(config_path) as f:
             config = json.load(f)
         

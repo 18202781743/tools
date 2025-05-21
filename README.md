@@ -58,7 +58,7 @@ curl -sSL https://raw.githubusercontent.com/18202781743/dev-tool/main/install-fr
 dev-tool upgrade
 ```
 
-> 💡 提示：配置文件存储在 ~/.config/tools/ 目录下
+> 💡 提示：配置文件存储在 ~/.config/dev-tool/ 目录下
 
 ---
 

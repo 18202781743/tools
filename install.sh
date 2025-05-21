@@ -115,7 +115,7 @@ elif [ -n "$ZSH_VERSION" ]; then
 fi
 
 # 安装配置文件到标准目录
-CONFIG_DIR="$HOME/.config/tools"
+CONFIG_DIR="$HOME/.config/dev-tool"
 mkdir -p "$CONFIG_DIR"
 
 # 检查配置文件是否会被覆盖
