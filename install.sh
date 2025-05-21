@@ -114,7 +114,7 @@ elif [ -n "$ZSH_VERSION" ]; then
     echo "Or open a new terminal"
 fi
 
-# 安装配置文件到标准目录
+# 安装配置文件和packages到标准目录
 CONFIG_DIR="$HOME/.config/dev-tool"
 mkdir -p "$CONFIG_DIR"
 
@@ -129,6 +129,21 @@ for config in package-crp-config.json git-tag-config.json; do
         fi
     fi
     cp "./$config" "$CONFIG_DIR/"
+done
+
+# 安装packages目录下的文件
+PACKAGES_DIR="$CONFIG_DIR/packages"
+mkdir -p "$PACKAGES_DIR"
+for pkg in packages/*; do
+    if [ -f "$PACKAGES_DIR/$(basename "$pkg")" ] && [ -f "$pkg" ]; then
+        echo "Warning: $(basename "$pkg") already exists in $PACKAGES_DIR"
+        read -p "Overwrite? [y/N] " confirm
+        if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+            echo "Skipping $(basename "$pkg") installation"
+            continue
+        fi
+    fi
+    cp "$pkg" "$PACKAGES_DIR/"
 done
 
 echo "##################### 安装完成 #####################"
