@@ -5,16 +5,18 @@ import json
 import argparse
 from typing import List, Dict, Optional
 
-def run_git_crp(project: Dict, defaults: Dict, args: argparse.Namespace):
-    """执行单个项目的git-crp.py"""
-    cmd = ["./dev-tool", "git-crp", args.command if hasattr(args, 'command') else "pack"]
+def run_git_tag(project: Dict, defaults: Dict, args: argparse.Namespace):
+    """执行单个项目的git-tag"""
+    cmd = ["dev-tool", "git", args.command if hasattr(args, 'command') else "tag"]
     
     # 添加所有支持的参数
     params = {
-        'topic': args.topic if hasattr(args, 'topic') else None,
+        'dir': project.get('dir', defaults.get('dir')),
+        'org': project.get('org', defaults.get('org')),
         'name': project.get('name', defaults.get('name')),
-        'tag': args.tag if hasattr(args, 'tag') else project.get('projectTag', defaults.get('projectTag')),
-        'branch': project.get('branch', defaults.get('branch'))
+        'branch': project.get('branch', defaults.get('branch')),
+        'tag': args.tag if hasattr(args, 'tag') else project.get('tag', defaults.get('tag')),
+        'reviewer': project.get('reviewers', defaults.get('reviewers', []))
     }
     
     # 添加非空参数到命令
@@ -35,13 +37,11 @@ def run_git_crp(project: Dict, defaults: Dict, args: argparse.Namespace):
         print(f"项目 {project_name} 执行失败: {e}")
 
 def main():
-    parser = argparse.ArgumentParser(description='批量执行git-crp.py')
-    parser.add_argument('command', nargs='?', default='pack', 
-                       choices=['pack', 'test', 'lasttag'], help='执行的命令')
-    parser.add_argument('--config', default='batch-git-crp-config.json', 
+    parser = argparse.ArgumentParser(description='dev-tool batch-git-tag - 批量执行git-tag')
+    parser.add_argument('command', nargs='?', default='tag', 
+                       choices=['tag', 'merge', 'test', 'lasttag'], help='执行的命令')
+    parser.add_argument('--config', default='batch-git-tag-config.json', 
                        help='配置文件路径')
-    # 添加所有git-crp支持的参数
-    parser.add_argument('--topic', help='topic名称')
     parser.add_argument('--tag', help='项目tag')
     args = parser.parse_args()
 
@@ -63,7 +63,7 @@ def main():
         return
 
     for project in projects:
-        run_git_crp(project, defaults, args)
+        run_git_tag(project, defaults, args)
 
 if __name__ == "__main__":
     main()

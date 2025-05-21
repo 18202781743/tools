@@ -1,0 +1,27 @@
+{
+  "defaults": {
+    "org": "linuxdeepin",
+    "branch": "master",
+    "reviewers": []
+  },
+  "projects": [
+    {
+      "name": "dtk6core"
+    },
+    {
+      "name": "dtk6gui"
+    },
+    {
+      "name": "dtk6widget"
+    },
+    {
+      "name": "dtk6declarative"
+    },
+    {
+      "name": "qt6platform-plugins"
+    },
+    {
+      "name": "qt6integration"
+    }
+  ]
+}

@@ -101,6 +101,18 @@ dev-tool git test --name deepin-desktop-theme-v25
 
 # 🔍 查看最新标签
 dev-tool git lasttag --name deepin-desktop-theme-v25
+
+# 🏷 批量创建标签 (使用配置文件)
+dev-tool batch-git tag --config batch-git-config.json
+
+# 🔄 批量合并标签PR
+dev-tool batch-git merge --config batch-git-config.json
+
+# 🧪 测试批量标签变更
+dev-tool batch-git test --config batch-git-config.json
+
+# 🔍 查看批量最新标签
+dev-tool batch-git lasttag --config batch-git-config.json
 ```
 
 ### 🔍 常用参数
@@ -113,6 +125,13 @@ dev-tool git lasttag --name deepin-desktop-theme-v25
 # Git参数  
 --name    项目名称 (必填)
 --org     组织名称 (默认: linuxdeepin)  
+--branch  分支名称 (默认: master)
+--tag     指定版本号 (不指定则自动递增)
+--reviewer 评审人员 (可多个)
+
+# Batch-Git参数
+--config  配置文件路径 (必填)
+--org     组织名称 (默认: linuxdeepin)
 --branch  分支名称 (默认: master)
 --tag     指定版本号 (不指定则自动递增)
 --reviewer 评审人员 (可多个)

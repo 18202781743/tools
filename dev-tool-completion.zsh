@@ -14,7 +14,8 @@ _dev-tool() {
             local -a commands
             commands=(
                 'crp:Manage CRP packages'
-                'git:Manage git tags'
+                'git:Manage git tags' 
+                'batch-git:Batch process git tags'
                 'config:Edit configuration'
                 'upgrade:Upgrade dev-tool'
                 'batch-crp:Batch process CRP packages'
@@ -76,7 +77,34 @@ _dev-tool() {
                     ;;
                 (config)
                     _arguments \
-                        '1: :(crp git)'
+                        '1: :(crp git batch-git)'
+                    ;;
+                (batch-git)
+                    _arguments -C \
+                        '1: :->batch_git_command' \
+                        '*: :->batch_git_args'
+                    
+                    case $state in
+                        (batch_git_command)
+                            local -a batch_git_commands
+                            batch_git_commands=(
+                                'tag:Create batch git tags'
+                                'merge:Merge batch git PRs'
+                                'test:Test batch git tags'
+                                'lasttag:Show last batch git tags'
+                            )
+                            _describe 'batch-git command' batch_git_commands
+                            ;;
+                        (batch_git_args)
+                            _arguments \
+                                '--config[Config file]' \
+                                '--org[Organization]' \
+                                '--branch[Branch name]' \
+                                '--tag[Tag name]' \
+                                '--reviewer[Reviewer]' \
+                                '--help[Show help]'
+                            ;;
+                    esac
                     ;;
             esac
             ;;

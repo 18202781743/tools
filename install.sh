@@ -72,10 +72,11 @@ if [[ ! -d "$VENV_DIR" ]]; then
 fi
 
 # 安装脚本到用户目录
-chmod +x ./dev-tool ./package-crp.py ./git-tag.py
+chmod +x ./dev-tool ./package-crp.py ./git-tag.py ./batch-git-tag.py
 cp ./dev-tool "$USER_BIN/dev-tool"
 cp ./package-crp.py "$USER_BIN/package-crp.py"
 cp ./git-tag.py "$USER_BIN/git-tag.py"
+cp ./batch-git-tag.py "$USER_BIN/batch-git-tag.py"
 
 # 安装自动补全脚本到用户目录
 COMPLETION_DIR="$HOME/.config/dev-tool/completions"

@@ -1,0 +1,30 @@
+{
+  "defaults": {
+    "org": "linuxdeepin",
+    "branch": "master",
+    "reviewers": []
+  },
+  "projects": [
+    {
+      "name": "dtkcore"
+    },
+    {
+      "name": "dtkgui"
+    },
+    {
+      "name": "dtkwidget"
+    },
+    {
+      "name": "dtkdeclarative"
+    },
+    {
+      "name": "dtkcommon"
+    },
+    {
+      "name": "qt5platform-plugins"
+    },
+    {
+      "name": "qt5integration"
+    }
+  ]
+}

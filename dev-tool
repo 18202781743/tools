@@ -27,8 +27,9 @@ show_help() {
     echo "  git      Manage git tags (calls git-tag.py)"
     echo "  config   Edit configuration files (crp/git)"
     echo "  upgrade  Upgrade dev-tool to latest version"
-    echo "  batch-crp  Batch process CRP packages (calls batch-package-crp.py)"
-    echo "Usage: $0 [crp|git|batch-crp] [command] [options]"
+    echo "  batch-crp      Batch process CRP packages (calls batch-package-crp.py)"
+    echo "  batch-git      Batch process git tags (calls batch-git-tag.py)"
+    echo "Usage: $0 [crp|git|batch-crp|batch-git] [command] [options]"
     echo ""
     echo "Examples:"
     echo "  $0 crp pack --name dtk6 --branch upstream/master"
@@ -69,6 +70,10 @@ case "$1" in
     batch-crp)
         shift
         run_python_script "$TOOL_DIR/batch-package-crp.py" "$@"
+        ;;
+    batch-git)
+        shift
+        run_python_script "$TOOL_DIR/batch-git-tag.py" "$@"
         ;;
     -h|--help|help)
         show_help
