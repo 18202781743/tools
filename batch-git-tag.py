@@ -45,14 +45,34 @@ def main():
     parser.add_argument('--tag', help='项目tag')
     args = parser.parse_args()
 
+    def find_config_file(filename):
+        """查找配置文件，先在当前目录查找，然后在~/.config/dev-tool/packages查找"""
+        # 检查当前目录
+        local_path = os.path.join(os.getcwd(), filename)
+        if os.path.exists(local_path):
+            return local_path
+        
+        # 检查packages目录
+        packages_path = os.path.expanduser(f'~/.config/dev-tool/packages/{filename}')
+        if os.path.exists(packages_path):
+            return packages_path
+        
+        # 检查默认config目录
+        config_path = os.path.expanduser(f'~/.config/dev-tool/{filename}')
+        if os.path.exists(config_path):
+            return config_path
+        
+        raise FileNotFoundError(f"Could not find config file {filename}")
+
     try:
-        with open(args.config) as f:
+        config_path = find_config_file(args.config)
+        with open(config_path) as f:
             config = json.load(f)
     except FileNotFoundError:
-        print(f"错误: 配置文件 {args.config} 不存在")
+        print(f"错误: 配置文件 {args.config} 不存在于以下路径: 当前目录, ~/.config/dev-tool/packages/, ~/.config/dev-tool/")
         return
     except json.JSONDecodeError:
-        print(f"错误: 配置文件 {args.config} 格式不正确")
+        print(f"错误: 配置文件 {config_path} 格式不正确")
         return
 
     defaults = config.get('defaults', {})
