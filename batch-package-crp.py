@@ -38,7 +38,7 @@ def main():
     parser = argparse.ArgumentParser(description='批量执行package-crp.py')
     parser.add_argument('command', nargs='?', default='pack', 
                        choices=['pack', 'test', 'lasttag'], help='执行的命令')
-    parser.add_argument('--config', default='batch-package-crp-config.json', 
+    parser.add_argument('--config', default='packages/batch-package-crp.packages', 
                        help='配置文件路径')
     # 添加所有package-crp支持的参数
     parser.add_argument('--topic', help='topic名称')
