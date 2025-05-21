@@ -119,9 +119,13 @@ def fetchToken():
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Login request failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         return ""
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode response JSON: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         return ""
 
 def fetchUser():
@@ -148,9 +152,13 @@ def fetchUser():
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Fetch user request failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         return ""
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode response JSON: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         return ""
 
 def listPojects():
@@ -198,9 +206,13 @@ def listPojects():
 
     except requests.exceptions.RequestException as e:
         logger.error(f"List projects request failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         return []
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode projects response: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         return []
     except Exception as e:
         logger.error(f"Unexpected error in listPojects: {str(e)}")
@@ -244,9 +256,13 @@ def listTopics():
 
     except requests.exceptions.RequestException as e:
         logger.error(f"List topics request failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         return []
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode topics response: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         return []
     except Exception as e:
         logger.error(f"Unexpected error in listTopics: {str(e)}")
@@ -280,9 +296,13 @@ def fetchCommitInfo(repoUrl, commit):
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Fetch commit info failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         return ""
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode commit info response: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         return ""
     except Exception as e:
         logger.error(f"Unexpected error in fetchCommitInfo: {str(e)}")
@@ -321,9 +341,13 @@ def listBranchs(projectId, projectUrl, targetName):
 
     except requests.exceptions.RequestException as e:
         logger.error(f"List branches failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         return []
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode branches response: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         return []
     except Exception as e:
         logger.error(f"Unexpected error in listBranchs: {str(e)}")
@@ -361,9 +385,13 @@ def listCreatedInstances(topicId):
 
     except requests.exceptions.RequestException as e:
         logger.error(f"List instances failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         return []
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode instances response: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         return []
     except Exception as e:
         logger.error(f"Unexpected error in listCreatedInstances: {str(e)}")
@@ -386,6 +414,8 @@ def deleteInstance(instanceId):
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Delete instance {instanceId} failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
     except Exception as e:
         logger.error(f"Unexpected error in deleteInstance: {str(e)}")
 
@@ -432,10 +462,14 @@ def createInstance(instanceInfo):
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Create instance failed: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Server response: {e.response.text}")
         logger.debug(f"Request data: {data}")
         raise
     except json.JSONDecodeError as e:
         logger.error(f"Failed to decode create instance response: {str(e)}")
+        if hasattr(e, 'response') and e.response:
+            logger.error(f"Raw response: {e.response.text}")
         raise
     except Exception as e:
         logger.error(f"Unexpected error in createInstance: {str(e)}")
