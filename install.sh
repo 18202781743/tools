@@ -96,6 +96,20 @@ done
 
 echo "##################### 安装完成 #####################"
 echo ""
-echo "################# 执行 dev-tool --help #####################"
 
-dev-tool --help
+# 根据当前shell自动source对应的配置文件
+current_shell=$(basename "$SHELL")
+case "$current_shell" in
+    bash)
+        source ~/.bashrc
+        ;;
+    zsh)
+        source ~/.zshrc
+        ;;
+    fish)
+        source ~/.config/fish/config.fish
+        ;;
+    *)
+        source ~/.bashrc
+        ;;
+esac
