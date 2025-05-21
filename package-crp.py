@@ -34,15 +34,9 @@ class ArgsInfo:
         self.token = "xxxx"
 
         # 从配置文件读取参数
-        try:
-            config_path = find_config_file("package-crp.packages")
-            with open(config_path) as f:
-                config = json.load(f)
-        except FileNotFoundError:
-            # 回退到旧路径
-            config_path = os.path.expanduser('~/.config/dev-tool/package-crp-config.json')
-            with open(config_path) as f:
-                config = json.load(f)
+        config_path = os.path.expanduser('~/.config/dev-tool/package-crp-config.json')
+        with open(config_path) as f:
+            config = json.load(f)
         
         # 认证信息
         self.userId = config['auth']['userId']     # crp用户id（登陆获取token）

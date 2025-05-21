@@ -7,7 +7,7 @@ from typing import List, Dict, Optional
 
 def run_package_crp(project: Dict, defaults: Dict, args: argparse.Namespace):
     """执行单个项目的package-crp.py"""
-    cmd = ["./dev-tool", "crp", args.command if hasattr(args, 'command') else "pack"]
+    cmd = ["dev-tool", "crp", args.command if hasattr(args, 'command') else "pack"]
     
     # 添加所有支持的参数
     params = {
