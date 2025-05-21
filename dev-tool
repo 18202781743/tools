@@ -27,12 +27,15 @@ show_help() {
     echo "  git      Manage git tags (calls git-tag.py)"
     echo "  config   Edit configuration files (crp/git)"
     echo "  upgrade  Upgrade dev-tool to latest version"
+    echo "  batch-crp  Batch process CRP packages (calls batch-package-crp.py)"
+    echo "Usage: $0 [crp|git|batch-crp] [command] [options]"
     echo ""
     echo "Examples:"
     echo "  $0 crp pack --name dtk6 --branch upstream/master"
     echo "  $0 git tag --name dtk6 --org linuxdeepin"
     echo "  $0 config crp    # Edit CRP config"
     echo "  $0 config git    # Edit git tag config"
+    echo "  $0 batch-crp --config batch-config.json"
     exit 0
 }
 
@@ -90,6 +93,10 @@ case "$1" in
         cd dev-tool
         ./install.sh
         echo "Upgrade completed successfully"
+        ;;
+    batch-crp)
+        shift
+        run_python_script "$TOOL_DIR/batch-package-crp.py" "$@"
         ;;
     -h|--help|help)
         show_help
