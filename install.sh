@@ -77,6 +77,41 @@ cp ./dev-tool "$USER_BIN/dev-tool"
 cp ./package-crp.py "$USER_BIN/package-crp.py"
 cp ./git-tag.py "$USER_BIN/git-tag.py"
 
+# 安装自动补全脚本到用户目录
+COMPLETION_DIR="$HOME/.config/dev-tool/completions"
+mkdir -p "$COMPLETION_DIR"
+
+if [ -n "$BASH_VERSION" ]; then
+    cp ./dev-tool-completion.bash "$COMPLETION_DIR/dev-tool"
+    if ! grep -q "source \"$COMPLETION_DIR/dev-tool\"" ~/.bashrc; then
+        echo "# dev-tool completion" >> ~/.bashrc
+        echo "source \"$COMPLETION_DIR/dev-tool\"" >> ~/.bashrc
+    fi
+    echo "Bash completion installed to $COMPLETION_DIR/dev-tool"
+    echo "Please run: source ~/.bashrc"
+elif [ -n "$ZSH_VERSION" ]; then
+    # Ensure completion directory exists
+    mkdir -p "$COMPLETION_DIR"
+    
+    # Install completion script with proper name
+    cp ./dev-tool-completion.zsh "$COMPLETION_DIR/_dev-tool"
+    chmod +x "$COMPLETION_DIR/_dev-tool"
+    
+    # Add to fpath if not already present
+    if ! grep -q "fpath+=(\"$COMPLETION_DIR\")" ~/.zshrc; then
+        echo "# dev-tool completion" >> ~/.zshrc
+        echo "fpath+=(\"$COMPLETION_DIR\")" >> ~/.zshrc
+        echo "autoload -Uz compinit" >> ~/.zshrc
+        echo "compinit -i -d ~/.zcompdump" >> ~/.zshrc
+    fi
+    
+    echo "Zsh completion installed to $COMPLETION_DIR/_dev-tool"
+    echo "To activate completion, run:"
+    echo "  rm -f ~/.zcompdump*"
+    echo "  exec zsh -l"
+    echo "Or open a new terminal"
+fi
+
 # 安装配置文件到标准目录
 CONFIG_DIR="$HOME/.config/tools"
 mkdir -p "$CONFIG_DIR"
