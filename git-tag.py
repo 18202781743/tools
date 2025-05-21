@@ -48,15 +48,9 @@ class ArgsInfo:
         self.projectReviewers = []
         # 从配置文件读取参数
         self.projectRootDir = "~/.cache/git-tag-dir" # 默认值
-        try:
-            config_path = find_config_file("git-tag.packages")
-            with open(config_path) as f:
-                config = json.load(f)
-        except FileNotFoundError:
-            # 回退到旧路径
-            config_path = os.path.expanduser('~/.config/dev-tool/git-tag-config.json')
-            with open(config_path) as f:
-                config = json.load(f)
+        config_path = os.path.expanduser('~/.config/dev-tool/git-tag-config.json')
+        with open(config_path) as f:
+            config = json.load(f)
         
         # Git信息
         self.githubID = config['git']['githubID']     # github 用户id

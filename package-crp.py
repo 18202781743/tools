@@ -15,24 +15,6 @@ def setup_logging():
     )
     return logging.getLogger(__name__)
 
-def find_config_file(filename):
-    """查找配置文件，先在当前目录查找，然后在~/.config/dev-tool/packages查找"""
-    # 检查当前目录
-    local_path = os.path.join(os.getcwd(), filename)
-    if os.path.exists(local_path):
-        return local_path
-    
-    # 检查packages目录
-    packages_path = os.path.expanduser(f'~/.config/dev-tool/packages/{filename}')
-    if os.path.exists(packages_path):
-        return packages_path
-    
-    # 检查默认config目录
-    config_path = os.path.expanduser(f'~/.config/dev-tool/{filename}')
-    if os.path.exists(config_path):
-        return config_path
-    
-    raise FileNotFoundError(f"Could not find config file {filename} in any of: current directory, ~/.config/dev-tool/packages/, ~/.config/dev-tool/")
 
 logger = setup_logging()
 
