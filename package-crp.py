@@ -19,23 +19,34 @@ logger = setup_logging()
 
 # 全局参数
 class ArgsInfo:
-    topicName = "test-xxxx" # 主题名称
-    projectName = "xxxx" # 项目名称
-    projectBranch = "upstream/master" # 项目分支
-    projectTag = "5.0.0" # 自定义tag
-    projectUpdateMode = True # 根据changelog自动更新版本号
-    branchId = 119 # snipe分支
-    archs = "amd64;arm64;loong64;sw64;mips64el"
-    topicType = "test"
-    # 从配置文件读取认证信息
-    config_path = os.path.expanduser('~/.config/tools/package-crp-config.json')
-    with open(config_path) as f:
-        config = json.load(f)
-    userId = config['auth']['userId']     # crp用户id（登陆获取token）
-    password = config['auth']['password'] # crp用户密码
+    def __init__(self):
+        # 默认值
+        self.topicName = "test-xxxx" # 主题名称
+        self.projectName = "xxxx" # 项目名称
+        self.projectBranch = "upstream/master" # 项目分支
+        self.projectTag = "5.0.0" # 自定义tag
+        self.projectUpdateMode = True # 根据changelog自动更新版本号
+        self.branchId = 119 # snipe分支
+        self.archs = "amd64;arm64;loong64;sw64;mips64el"
+        self.topicType = "test"
+        self.userName = "xxxx" # crp用户名（过滤topic）
+        self.token = "xxxx"
 
-    userName = "xxxx" # crp用户名（过滤topic）
-    token = "xxxx" 
+        # 从配置文件读取参数
+        with open('~/.config/tools/package-crp-config.json') as f:
+            config = json.load(f)
+        
+        # 认证信息
+        self.userId = config['auth']['userId']     # crp用户id（登陆获取token）
+        self.password = config['auth']['password'] # crp用户密码
+
+        # 从配置文件中读取其他参数（如果存在）
+        if 'params' in config:
+            params = config['params']
+            self.topicType = params.get('topicType', self.topicType)
+            self.archs = params.get('archs', self.archs)
+            self.branchId = params.get('branchId', self.branchId)
+            self.projectBranch = params.get('projectBranch', self.projectBranch)
 
 argsInfo = ArgsInfo()
 

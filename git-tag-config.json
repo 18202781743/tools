@@ -2,5 +2,11 @@
   "git": {
     "githubID": "xxx",
     "debEmail": "xxx"
+  },
+  "params": {
+    "projectBranch": "master",
+    "projectOrg": "linuxdeepin",
+    "projectReviewers": [],
+    "projectRootDir": "~/.cache/git-tag-dir"
   }
 }

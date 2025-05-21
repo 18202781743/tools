@@ -2,5 +2,11 @@
   "auth": {
     "userId": "utxxx",
     "password": "xxx"
+  },
+  "params": {
+    "topicType": "test",
+    "archs": "amd64;arm64;loong64;sw64;mips64el",
+    "branchId": 119,
+    "projectBranch": "upstream/master"
   }
 }
