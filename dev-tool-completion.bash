@@ -6,7 +6,7 @@ _dev-tool() {
 
     case $prev in
         dev-tool)
-            COMPREPLY=( $(compgen -W "crp git batch-git config upgrade help" -- "$cur") )
+            COMPREPLY=( $(compgen -W "crp git batch-git batch-crp config upgrade help" -- "$cur") )
             return 0
             ;;
         crp)
@@ -21,6 +21,10 @@ _dev-tool() {
             COMPREPLY=( $(compgen -W "tag merge test lasttag" -- "$cur") )
             return 0
             ;;
+        batch-crp)
+            COMPREPLY=( $(compgen -W "pack test" -- "$cur") )
+            return 0
+            ;;
     esac
 
     case ${words[1]} in
@@ -32,6 +36,9 @@ _dev-tool() {
             ;;
         batch-git)
             _dev-tool_batch_git
+            ;;
+        batch-crp)
+            _dev-tool_batch_crp
             ;;
     esac
 }
@@ -78,6 +85,21 @@ _dev-tool_batch_git() {
 
     if [[ $cur == -* ]]; then
         COMPREPLY=( $(compgen -W "--config --org --branch --tag --reviewer --help" -- "$cur") )
+    fi
+}
+
+_dev-tool_batch_crp() {
+    local cur prev words cword
+    _init_completion || return
+
+    case $prev in
+        --config|--topic|--branch|--tag)
+            return 0
+            ;;
+    esac
+
+    if [[ $cur == -* ]]; then
+        COMPREPLY=( $(compgen -W "--config --topic --branch --tag --help" -- "$cur") )
     fi
 }
 

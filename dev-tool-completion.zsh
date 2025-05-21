@@ -16,9 +16,9 @@ _dev-tool() {
                 'crp:Manage CRP packages'
                 'git:Manage git tags' 
                 'batch-git:Batch process git tags'
+                'batch-crp:Batch process CRP packages'
                 'config:Edit configuration'
                 'upgrade:Upgrade dev-tool'
-                'batch-crp:Batch process CRP packages'
                 'help:Show help'
             )
             _describe 'command' commands
@@ -34,9 +34,12 @@ _dev-tool() {
                         (crp_command)
                             local -a crp_commands
                             crp_commands=(
-                                'list:List CRP packages'
-                                'create:Create new CRP package'
-                                'update:Update CRP package'
+                                'pack:Create CRP package'
+                                'test:Test CRP package'
+                                'projects:List projects'
+                                'topics:List topics'
+                                'instances:List instances'
+                                'branches:List branches'
                             )
                             _describe 'crp command' crp_commands
                             ;;
@@ -45,6 +48,7 @@ _dev-tool() {
                                 '--name[Package name]' \
                                 '--topic[Topic name]' \
                                 '--branch[Branch name]' \
+                                '--tag[Tag name]' \
                                 '--help[Show help]'
                             ;;
                     esac
@@ -58,9 +62,10 @@ _dev-tool() {
                         (git_command)
                             local -a git_commands
                             git_commands=(
-                                'tag:Manage git tags'
-                                'push:Push changes'
-                                'create:Create new branch'
+                                'tag:Create git tag'
+                                'merge:Merge git PR'
+                                'test:Test git tag'
+                                'lasttag:Show last git tag'
                             )
                             _describe 'git command' git_commands
                             ;;
@@ -74,10 +79,6 @@ _dev-tool() {
                                 '--help[Show help]'
                             ;;
                     esac
-                    ;;
-                (config)
-                    _arguments \
-                        '1: :(crp git batch-git)'
                     ;;
                 (batch-git)
                     _arguments -C \
@@ -105,6 +106,34 @@ _dev-tool() {
                                 '--help[Show help]'
                             ;;
                     esac
+                    ;;
+                (batch-crp)
+                    _arguments -C \
+                        '1: :->batch_crp_command' \
+                        '*: :->batch_crp_args'
+                    
+                    case $state in
+                        (batch_crp_command)
+                            local -a batch_crp_commands
+                            batch_crp_commands=(
+                                'pack:Create batch CRP packages'
+                                'test:Test batch CRP packages'
+                            )
+                            _describe 'batch-crp command' batch_crp_commands
+                            ;;
+                        (batch_crp_args)
+                            _arguments \
+                                '--config[Config file]' \
+                                '--topic[Topic name]' \
+                                '--branch[Branch name]' \
+                                '--tag[Tag name]' \
+                                '--help[Show help]'
+                            ;;
+                    esac
+                    ;;
+                (config)
+                    _arguments \
+                        '1: :(crp git batch-git batch-crp)'
                     ;;
             esac
             ;;

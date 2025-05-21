@@ -83,6 +83,12 @@ dev-tool crp branches --topic DDE-V25-20250116 --name deepin-desktop-theme-v25
 
 # 🧪 测试打包
 dev-tool crp test --topic DDE-V25-20250116 --name deepin-desktop-theme-v25
+
+# 🏭 批量打包项目 (使用配置文件)
+dev-tool batch-crp pack --config batch-package-crp-config.json
+
+# 🧪 批量测试打包
+dev-tool batch-crp test --config batch-package-crp-config.json
 ```
 
 ### 🔧 Git标签管理
@@ -120,6 +126,11 @@ dev-tool batch-git lasttag --config batch-git-config.json
 # CRP参数
 --topic   测试主题名称 (必填)
 --name    项目名称 (必填)
+--branch  分支名称 (默认: upstream/master)
+
+# Batch-CRP参数
+--config  配置文件路径 (必填)
+--topic   测试主题名称 (可选)
 --branch  分支名称 (默认: upstream/master)
 
 # Git参数  
