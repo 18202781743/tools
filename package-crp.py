@@ -15,6 +15,25 @@ def setup_logging():
     )
     return logging.getLogger(__name__)
 
+def find_config_file(filename):
+    """查找配置文件，先在当前目录查找，然后在~/.config/dev-tool/packages查找"""
+    # 检查当前目录
+    local_path = os.path.join(os.getcwd(), filename)
+    if os.path.exists(local_path):
+        return local_path
+    
+    # 检查packages目录
+    packages_path = os.path.expanduser(f'~/.config/dev-tool/packages/{filename}')
+    if os.path.exists(packages_path):
+        return packages_path
+    
+    # 检查默认config目录
+    config_path = os.path.expanduser(f'~/.config/dev-tool/{filename}')
+    if os.path.exists(config_path):
+        return config_path
+    
+    raise FileNotFoundError(f"Could not find config file {filename} in any of: current directory, ~/.config/dev-tool/packages/, ~/.config/dev-tool/")
+
 logger = setup_logging()
 
 # 全局参数
@@ -33,9 +52,15 @@ class ArgsInfo:
         self.token = "xxxx"
 
         # 从配置文件读取参数
-        config_path = os.path.expanduser('~/.config/dev-tool/package-crp-config.json')
-        with open(config_path) as f:
-            config = json.load(f)
+        try:
+            config_path = find_config_file("package-crp.packages")
+            with open(config_path) as f:
+                config = json.load(f)
+        except FileNotFoundError:
+            # 回退到旧路径
+            config_path = os.path.expanduser('~/.config/dev-tool/package-crp-config.json')
+            with open(config_path) as f:
+                config = json.load(f)
         
         # 认证信息
         self.userId = config['auth']['userId']     # crp用户id（登陆获取token）
