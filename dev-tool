@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# 工具主目录
+TOOL_DIR="$(dirname "$(readlink -f "$0")")"
+
+# 检查并执行 Python 脚本
+run_python_script() {
+    local script="$1"
+    shift
+    if [[ ! -f "$script" ]]; then
+        echo "Error: $script not found in $TOOL_DIR"
+        exit 1
+    fi
+    # 检查并设置虚拟环境
+    VENV_DIR="$TOOL_DIR/venv"
+    REQUIREMENTS="$TOOL_DIR/requirements.txt"
+    
+    if [[ ! -d "$VENV_DIR" ]]; then
+        echo "Creating virtual environment at $VENV_DIR..."
+        python3 -m venv "$VENV_DIR"
+        source "$VENV_DIR/bin/activate"
+        
+        # 安装依赖
+        if [[ -f "$REQUIREMENTS" ]]; then
+            pip install -r "$REQUIREMENTS"
+        else
+            echo "Warning: requirements.txt not found, installing basic dependencies..."
+            pip install requests
+        fi
+        deactivate
+    fi
+    
+    # 使用虚拟环境执行
+    source "$VENV_DIR/bin/activate"
+    python "$script" "$@"
+    deactivate
+}
+
+# 显示帮助信息
+show_help() {
+    echo "Usage: $0 [crp|git] [command] [options]"
+    echo ""
+    echo "Subcommands:"
+    echo "  crp      Manage CRP packages (calls package-crp.py)"
+    echo "  git      Manage git tags (calls git-tag.py)"
+    echo ""
+    echo "Examples:"
+    echo "  $0 crp pack --name dtk6 --branch upstream/master"
+    echo "  $0 git tag --name dtk6 --org linuxdeepin"
+    exit 0
+}
+
+# 主逻辑
+case "$1" in
+    crp)
+        shift
+        run_python_script "$TOOL_DIR/package-crp.py" "$@"
+        ;;
+    git)
+        shift
+        run_python_script "$TOOL_DIR/git-tag.py" "$@"
+        ;;
+    -h|--help|help)
+        show_help
+        ;;
+    *)
+        echo "Error: Unknown subcommand '$1'"
+        show_help
+        exit 1
+        ;;
+esac

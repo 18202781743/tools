@@ -1,0 +1,17 @@
+# 默认忽略规则
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.egg-info/
+*.egg
+dist/
+build/
+.cache/
+.idea/
+.vscode/
+venv/
+
+# 不忽略env目录
+# !env/
