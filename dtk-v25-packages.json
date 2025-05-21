@@ -1,0 +1,46 @@
+{
+  "defaults": {
+    "branch": "upstream/master"
+  },
+  "projects": [
+    {
+      "name": "dtkcommon-v25"
+    },
+    {
+      "name": "dtkcore-v25"
+    },
+    {
+      "name": "dtkgui-v25"
+    },
+    {
+      "name": "dtkwidget-v25"
+    },
+    {
+      "name": "dtkdeclarative-v25"
+    },
+    {
+      "name": "dtk6core-v25"
+    },
+    {
+      "name": "dtk6gui-v25"
+    },
+    {
+      "name": "dtk6widget-v25"
+    },
+    {
+      "name": "dtk6declarative-v25"
+    },
+    {
+      "name": "qt5integration-v25"
+    },
+    {
+      "name": "qt5platform-plugins-v25"
+    },
+    {
+      "name": "qt6integration-v25"
+    },
+    {
+      "name": "qt6platform-plugins-v25"
+    }
+  ]
+}
