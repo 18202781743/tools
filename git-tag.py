@@ -23,7 +23,8 @@ class ArgsInfo:
     projectBranch = "master" # 项目分支
     projectTag = "1.0.0" # 自定义tag
     # 从配置文件读取git信息
-    with open('git-tag-config.json') as f:
+    config_path = os.path.expanduser('~/.config/tools/git-tag-config.json')
+    with open(config_path) as f:
         config = json.load(f)
     githubID = config['git']['githubID']     # github 用户id
     debEmail = config['git']['debEmail']     # debian 打包邮箱

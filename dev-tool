@@ -11,42 +11,28 @@ run_python_script() {
         echo "Error: $script not found in $TOOL_DIR"
         exit 1
     fi
-    # 检查并设置虚拟环境
-    VENV_DIR="$TOOL_DIR/venv"
-    REQUIREMENTS="$TOOL_DIR/requirements.txt"
     
-    if [[ ! -d "$VENV_DIR" ]]; then
-        echo "Creating virtual environment at $VENV_DIR..."
-        python3 -m venv "$VENV_DIR"
-        source "$VENV_DIR/bin/activate"
-        
-        # 安装依赖
-        if [[ -f "$REQUIREMENTS" ]]; then
-            pip install -r "$REQUIREMENTS"
-        else
-            echo "Warning: requirements.txt not found, installing basic dependencies..."
-            pip install requests
-        fi
-        deactivate
-    fi
-    
-    # 使用虚拟环境执行
-    source "$VENV_DIR/bin/activate"
+    # 在虚拟环境中执行脚本
+    source "$HOME/.local/venv/bin/activate"
     python "$script" "$@"
     deactivate
 }
 
 # 显示帮助信息
 show_help() {
-    echo "Usage: $0 [crp|git] [command] [options]"
+    echo "Usage: $0 [crp|git|config] [command] [options]"
     echo ""
     echo "Subcommands:"
     echo "  crp      Manage CRP packages (calls package-crp.py)"
     echo "  git      Manage git tags (calls git-tag.py)"
+    echo "  config   Edit configuration files (crp/git)"
+    echo "  upgrade  Upgrade dev-tool to latest version"
     echo ""
     echo "Examples:"
     echo "  $0 crp pack --name dtk6 --branch upstream/master"
     echo "  $0 git tag --name dtk6 --org linuxdeepin"
+    echo "  $0 config crp    # Edit CRP config"
+    echo "  $0 config git    # Edit git tag config"
     exit 0
 }
 
@@ -59,6 +45,51 @@ case "$1" in
     git)
         shift
         run_python_script "$TOOL_DIR/git-tag.py" "$@"
+        ;;
+    config)
+        shift
+        CONFIG_DIR="$HOME/.config/tools"
+        if [[ "$1" == "crp" ]]; then
+            ${EDITOR:-vi} "$CONFIG_DIR/package-crp-config.json"
+        elif [[ "$1" == "git" ]]; then
+            ${EDITOR:-vi} "$CONFIG_DIR/git-tag-config.json"
+        else
+            echo "Usage: $0 config [crp|git]"
+            exit 1
+        fi
+        ;;
+    upgrade)
+        echo "Upgrading dev-tool..."
+        CACHE_DIR="$HOME/.cache/dev-tool-upgrade"
+        mkdir -p "$CACHE_DIR"
+        cd "$CACHE_DIR"
+        
+        # 克隆最新代码
+        if [ ! -d "dev-tool" ]; then
+            git clone https://github.com/18202781743/tools.git
+        else
+            cd dev-tool
+            git pull origin main
+        fi
+
+        # 检查配置文件是否会被覆盖
+        CONFIG_DIR="$HOME/.config/tools"
+        for config in package-crp-config.json git-tag-config.json dtk-v25.packages; do
+            if [ -f "$CONFIG_DIR/$config" ] && [ -f "dev-tool/$config" ]; then
+                echo "Warning: $config will be overwritten during upgrade"
+                read -p "Continue? [y/N] " confirm
+                if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+                    echo "Upgrade aborted"
+                    exit 1
+                fi
+                break
+            fi
+        done
+
+        # 执行安装
+        cd dev-tool
+        ./install.sh
+        echo "Upgrade completed successfully"
         ;;
     -h|--help|help)
         show_help

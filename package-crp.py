@@ -28,7 +28,8 @@ class ArgsInfo:
     archs = "amd64;arm64;loong64;sw64;mips64el"
     topicType = "test"
     # 从配置文件读取认证信息
-    with open('package-crp-config.json') as f:
+    config_path = os.path.expanduser('~/.config/tools/package-crp-config.json')
+    with open(config_path) as f:
         config = json.load(f)
     userId = config['auth']['userId']     # crp用户id（登陆获取token）
     password = config['auth']['password'] # crp用户密码
