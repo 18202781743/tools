@@ -29,7 +29,8 @@ class ArgsInfo:
         self.projectReviewers = []
         # 从配置文件读取参数
         self.projectRootDir = "~/.cache/git-tag-dir" # 默认值
-        with open('~/.config/tools/git-tag-config.json') as f:
+        config_path = os.path.expanduser('~/.config/tools/git-tag-config.json')
+        with open(config_path) as f:
             config = json.load(f)
         
         # Git信息
