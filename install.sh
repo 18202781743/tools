@@ -80,9 +80,19 @@ cp ./git-tag.py "$USER_BIN/git-tag.py"
 # 安装配置文件到标准目录
 CONFIG_DIR="$HOME/.config/tools"
 mkdir -p "$CONFIG_DIR"
-cp ./package-crp-config.json "$CONFIG_DIR/"
-cp ./git-tag-config.json "$CONFIG_DIR/"
-cp ./dtk-v25.packages "$CONFIG_DIR/"
+
+# 检查配置文件是否会被覆盖
+for config in package-crp-config.json git-tag-config.json dtk-v25.packages; do
+    if [ -f "$CONFIG_DIR/$config" ] && [ -f "./$config" ]; then
+        echo "Warning: $config already exists in $CONFIG_DIR"
+        read -p "Overwrite? [y/N] " confirm
+        if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
+            echo "Skipping $config installation"
+            continue
+        fi
+    fi
+    cp "./$config" "$CONFIG_DIR/"
+done
 
 echo "##################### 安装完成 #####################"
 echo ""

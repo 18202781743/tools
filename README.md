@@ -1,57 +1,177 @@
-## crp 工具
+<div align="center">
+  <h1>🚀 CRP 工具套件</h1>
+  <p>✨ 一个高效管理CRP打包流程的工具集合</p>
+  
+  <div>
+    <img src="https://img.shields.io/badge/version-1.0.0-blue" alt="version">
+    <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
+    <img src="https://img.shields.io/badge/platform-Linux-lightgrey" alt="platform">
+    <img src="https://img.shields.io/badge/python-3.8+-blue" alt="python">
+  </div>
+</div>
 
-### 快速使用
+---
 
-#### 1. 在`package-crp.py`填写必要信息
+<div align="center">
+  <table>
+    <tr>
+      <td width="50%">
+        <h3>📦 主要功能</h3>
+        <ul>
+          <li>CRP包管理</li>
+          <li>Git标签管理</li>
+          <li>批量操作</li>
+          <li>自动版本控制</li>
+        </ul>
+      </td>
+      <td width="50%">
+        <h3>⚡ 特色</h3>
+        <ul>
+          <li>一键安装</li>
+          <li>配置集中管理</li>
+          <li>安全升级</li>
+          <li>完善的文档</li>
+        </ul>
+      </td>
+    </tr>
+  </table>
+</div>
 
-``` python
-userId = "utxxxx" # crp用户id（登录id）
-password = "xxxx" # 密码
+## 📦 快速开始
+
+### 1️⃣ 配置信息
+```bash
+# 🛠 使用config命令编辑配置
+dev-tool config crp    # 编辑CRP配置
+dev-tool config git    # 编辑Git标签配置
 ```
 
-#### 2. 安装
-
+### 2️⃣ 一键安装
 ```bash
+# 💻 本地安装
 ./install.sh
+
+# 🌐 GitHub在线安装
+curl -sSL https://raw.githubusercontent.com/18202781743/tools/main/install-from-github.sh | bash
+
+# 🔄 升级工具
+dev-tool upgrade
 ```
 
-注:  后续要修改`package-crp.py`可以在`/usr/share/tools/package-crp.py`修改
+> 💡 提示：配置文件存储在 ~/.config/tools/ 目录下
 
+---
 
-#### 使用示例
+## 🛠 使用示例
 
+### 🔧 CRP包管理
 ```bash
-# patch打包
-# crp --topic <测试主题名> --name <要打包的项目名> --branch <包分支名>
-crp --topic DDE-V25-20250116 --name deepin-desktop-theme-v25 --branch upstream/master
+# 📦 打包项目
+dev-tool crp pack --topic DDE-V25-20250116 --name deepin-desktop-theme-v25 --branch upstream/master
 
-# 指定版本打包
-# crp --topic <测试主题名> --name <要打包的项目名> --branch <包分支名> --tag <版本号>
-crp branches --topic test --name deepin-desktop-theme-v25 --tag 1.1.1
+# 🔍 查询项目
+dev-tool crp projects --name deepin-desktop-theme
+
+# 📌 查询测试主题
+dev-tool crp topics --topic DDE-V25-20250116
+
+# 📋 查询已打包列表
+dev-tool crp instances --topic DDE-V25-20250116
+
+# 🌿 查询项目分支
+dev-tool crp branches --topic DDE-V25-20250116 --name deepin-desktop-theme-v25
+
+# 🧪 测试打包
+dev-tool crp test --topic DDE-V25-20250116 --name deepin-desktop-theme-v25
 ```
 
-### 常用命令
-
+### 🔧 Git标签管理
 ```bash
+# 🏷 创建新标签 (自动递增版本号)
+dev-tool git tag --name deepin-desktop-theme-v25 --org linuxdeepin
 
-# 示例包名: deepin-desktop-theme
-# 示例主题名: DDE-V25-20250116
+# 🏷 指定版本号创建标签
+dev-tool git tag --name deepin-desktop-theme-v25 --org linuxdeepin --tag 1.1.1
 
-# 模糊查包名
-crp projects --name deepin-desktop-theme
+# 🔄 合并标签PR
+dev-tool git merge --name deepin-desktop-theme-v25
 
-# 模糊查测试主题名
-crp topics --topic DDE-V25-20250116
+# 🧪 测试标签变更
+dev-tool git test --name deepin-desktop-theme-v25
 
-# 查询指定测试主题下已经打包的包列表
-crp instances --topic DDE-V25-20250116
-
-# 查询指定测试主题下的指定包有哪些分支
-crp branches --topic DDE-V25-20250116 --name deepin-desktop-theme-v25
-
-# 测试打包
-crp test --topic DDE-V25-20250116 --name deepin-desktop-theme-v25
-
-# 批量打包，e.g: dtk打包
-cat /usr/share/tools/dtk-v25.packages | strings| xargs -I {} crp --topic DDE-V25-20250116 --name {} --branch upstream/master
+# 🔍 查看最新标签
+dev-tool git lasttag --name deepin-desktop-theme-v25
 ```
+
+### 🔍 常用参数
+```bash
+# CRP参数
+--topic   测试主题名称 (必填)
+--name    项目名称 (必填)
+--branch  分支名称 (默认: upstream/master)
+
+# Git参数  
+--name    项目名称 (必填)
+--org     组织名称 (默认: linuxdeepin)  
+--branch  分支名称 (默认: master)
+--tag     指定版本号 (不指定则自动递增)
+--reviewer 评审人员 (可多个)
+```
+
+### ⚙️ 配置管理
+```bash
+# 编辑CRP配置
+dev-tool config crp
+
+# 编辑Git标签配置
+dev-tool config git
+```
+
+---
+
+## 📌 使用提示
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0;">
+  <div style="flex: 1; min-width: 200px; padding: 15px; background: #f8f9fa; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+    <h4>🌐 网络连接</h4>
+    <p>确保网络连接正常，特别是访问CRP和GitHub时</p>
+  </div>
+  
+  <div style="flex: 1; min-width: 200px; padding: 15px; background: #f8f9fa; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+    <h4>🔐 权限管理</h4>
+    <p>需要有CRP和GitHub的相应权限才能执行操作</p>
+  </div>
+  
+  <div style="flex: 1; min-width: 200px; padding: 15px; background: #f8f9fa; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+    <h4>📝 日志查看</h4>
+    <p>操作日志保存在 ~/.cache/dev-tool.log</p>
+  </div>
+</div>
+
+---
+
+## 🤝 贡献指南
+
+<div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+  <h3 style="text-align: center;">欢迎贡献！</h3>
+  <p style="text-align: center;">我们欢迎各种形式的贡献：</p>
+  
+  <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin: 20px 0;">
+    <div style="flex: 1; min-width: 200px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+      <h4>🐛 报告问题</h4>
+      <p>提交Issue报告bug或建议</p>
+    </div>
+    
+    <div style="flex: 1; min-width: 200px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+      <h4>💻 代码贡献</h4>
+      <p>提交PR改进代码</p>
+    </div>
+    
+    <div style="flex: 1; min-width: 200px; padding: 15px; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+      <h4>📖 文档改进</h4>
+      <p>帮助完善文档</p>
+    </div>
+  </div>
+  
+  <p style="text-align: center;">🎉 感谢您的贡献！</p>
+</div>
