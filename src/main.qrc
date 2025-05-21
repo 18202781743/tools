@@ -1,7 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>Main.qml</file>
-        <file>CrpPackagePage.qml</file>
-        <file>CrpQueryPage.qml</file>
-    </qresource>
-</RCC>
