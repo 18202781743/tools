@@ -52,7 +52,7 @@ dev-tool config git    # 编辑Git标签配置
 ./install.sh
 
 # 🌐 GitHub在线安装
-curl -sSL https://raw.githubusercontent.com/18202781743/tools/main/install-from-github.sh | bash
+curl -sSL https://raw.githubusercontent.com/18202781743/dev-tool/main/install-from-github.sh | bash
 
 # 🔄 升级工具
 dev-tool upgrade

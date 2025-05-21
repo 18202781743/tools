@@ -3,11 +3,11 @@
 set -e
 
 # 一键安装命令：
-# curl -sSL https://raw.githubusercontent.com/18202781743/tools/main/install-from-github.sh | bash
+# curl -sSL https://raw.githubusercontent.com/18202781743/dev-tool/main/install-from-github.sh | bash
 # 或
-# wget -qO- https://raw.githubusercontent.com/18202781743/tools/main/install-from-github.sh | bash
+# wget -qO- https://raw.githubusercontent.com/18202781743/dev-tool/main/install-from-github.sh | bash
 
-REPO_URL="https://github.com/18202781743/tools.git"
+REPO_URL="https://github.com/18202781743/dev-tool.git"
 INSTALL_DIR="$HOME/.local/share/dev-tool"
 BIN_DIR="$HOME/.local/bin"
 

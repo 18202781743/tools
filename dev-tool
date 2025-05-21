@@ -63,35 +63,7 @@ case "$1" in
         ;;
     upgrade)
         echo "Upgrading dev-tool..."
-        CACHE_DIR="$HOME/.cache/dev-tool-upgrade"
-        mkdir -p "$CACHE_DIR"
-        cd "$CACHE_DIR"
-        
-        # 克隆最新代码
-        if [ ! -d "dev-tool" ]; then
-            git clone https://github.com/18202781743/tools.git
-        else
-            cd dev-tool
-            git pull origin main
-        fi
-
-        # 检查配置文件是否会被覆盖
-        CONFIG_DIR="$HOME/.config/tools"
-        for config in package-crp-config.json git-tag-config.json dtk-v25.packages; do
-            if [ -f "$CONFIG_DIR/$config" ] && [ -f "dev-tool/$config" ]; then
-                echo "Warning: $config will be overwritten during upgrade"
-                read -p "Continue? [y/N] " confirm
-                if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-                    echo "Upgrade aborted"
-                    exit 1
-                fi
-                break
-            fi
-        done
-
-        # 执行安装
-        cd dev-tool
-        ./install.sh
+        curl -sSL https://raw.githubusercontent.com/18202781743/dev-tool/main/install-from-github.sh | bash
         echo "Upgrade completed successfully"
         ;;
     batch-crp)

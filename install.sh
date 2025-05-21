@@ -82,7 +82,7 @@ CONFIG_DIR="$HOME/.config/tools"
 mkdir -p "$CONFIG_DIR"
 
 # 检查配置文件是否会被覆盖
-for config in package-crp-config.json git-tag-config.json dtk-v25.packages; do
+for config in package-crp-config.json git-tag-config.json; do
     if [ -f "$CONFIG_DIR/$config" ] && [ -f "./$config" ]; then
         echo "Warning: $config already exists in $CONFIG_DIR"
         read -p "Overwrite? [y/N] " confirm
@@ -98,18 +98,12 @@ echo "##################### 安装完成 #####################"
 echo ""
 
 # 根据当前shell自动source对应的配置文件
-current_shell=$(basename "$SHELL")
-case "$current_shell" in
-    bash)
-        source ~/.bashrc
-        ;;
-    zsh)
-        source ~/.zshrc
-        ;;
-    fish)
-        source ~/.config/fish/config.fish
-        ;;
-    *)
-        source ~/.bashrc
-        ;;
-esac
+if [ -n "$BASH_VERSION" ]; then
+    source ~/.bashrc
+elif [ -n "$ZSH_VERSION" ]; then
+    source ~/.zshrc
+elif [ -n "$FISH_VERSION" ]; then
+    source ~/.config/fish/config.fish
+else
+    source ~/.bashrc
+fi
