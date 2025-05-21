@@ -131,19 +131,11 @@ for config in package-crp-config.json git-tag-config.json; do
     cp "./$config" "$CONFIG_DIR/"
 done
 
-# 安装packages目录下的文件
+# 安装packages目录下的文件（直接覆盖）
 PACKAGES_DIR="$CONFIG_DIR/packages"
 mkdir -p "$PACKAGES_DIR"
 for pkg in packages/*; do
-    if [ -f "$PACKAGES_DIR/$(basename "$pkg")" ] && [ -f "$pkg" ]; then
-        echo "Warning: $(basename "$pkg") already exists in $PACKAGES_DIR"
-        read -p "Overwrite? [y/N] " confirm
-        if [[ ! "$confirm" =~ ^[Yy]$ ]]; then
-            echo "Skipping $(basename "$pkg") installation"
-            continue
-        fi
-    fi
-    cp "$pkg" "$PACKAGES_DIR/"
+    cp -f "$pkg" "$PACKAGES_DIR/"
 done
 
 echo "##################### 安装完成 #####################"
