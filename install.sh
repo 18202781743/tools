@@ -99,6 +99,12 @@ elif [ -n "$ZSH_VERSION" ]; then
     cp ./dev-tool-completion.zsh "$COMPLETION_DIR/_dev-tool"
     chmod +x "$COMPLETION_DIR/_dev-tool"
     
+    # Install argcomplete for Python command completion
+    if ! "$VENV_DIR/bin/pip" show argcomplete &> /dev/null; then
+        "$VENV_DIR/bin/pip" install argcomplete
+    fi
+    "$VENV_DIR/bin/activate-global-python-argcomplete" --user
+    
     # Add to fpath if not already present
     if ! grep -q "fpath+=(\"$COMPLETION_DIR\")" ~/.zshrc; then
         echo "# dev-tool completion" >> ~/.zshrc
