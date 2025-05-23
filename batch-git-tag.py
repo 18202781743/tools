@@ -46,23 +46,28 @@ def main():
     args = parser.parse_args()
 
     def find_config_file(filename):
-        """查找配置文件，先在当前目录查找，然后在~/.config/dev-tool/packages查找"""
-        # 检查当前目录
-        local_path = os.path.join(os.getcwd(), filename)
-        if os.path.exists(local_path):
-            return local_path
+        """查找配置文件，如果是绝对路径直接检查，否则尝试多个默认路径"""
+        # 如果是绝对路径，直接检查
+        if os.path.isabs(filename):
+            if os.path.exists(filename):
+                return filename
+            raise FileNotFoundError(f"Config file not found at absolute path: {filename}")
+
+        # 相对路径时尝试多个默认位置
+        search_paths = [
+            os.path.join(os.getcwd(), filename),  # 当前目录
+            os.path.expanduser(f'~/.config/dev-tool/packages/{filename}'),  # packages目录
+            os.path.expanduser(f'~/.config/dev-tool/{filename}')  # 默认config目录
+        ]
         
-        # 检查packages目录
-        packages_path = os.path.expanduser(f'~/.config/dev-tool/packages/{filename}')
-        if os.path.exists(packages_path):
-            return packages_path
-        
-        # 检查默认config目录
-        config_path = os.path.expanduser(f'~/.config/dev-tool/{filename}')
-        if os.path.exists(config_path):
-            return config_path
-        
-        raise FileNotFoundError(f"Could not find config file {filename}")
+        for path in search_paths:
+            if os.path.exists(path):
+                return path
+                
+        raise FileNotFoundError(
+            f"Could not find config file {filename} in: current directory, "
+            f"~/.config/dev-tool/packages/, ~/.config/dev-tool/"
+        )
 
     try:
         config_path = find_config_file(args.config)
